@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\TaskManager.Core\TaskManager.Core.csproj" />
     <ProjectReference Include="..\..\Shared\TaskManager.Database\TaskManager.Database.csproj" />
+    <ProjectReference Include="..\TaskManager.Team.Logic\TaskManager.Team.Logic.csproj" />
   </ItemGroup>
 
 </Project>

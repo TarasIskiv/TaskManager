@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{FA5A78B1-184D-4EA6-AAF5-87FF7957FFFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Notification.API", "NotificationService\TaskManager.Notification.API\TaskManager.Notification.API.csproj", "{933460A3-3ACF-4879-8739-126B8DD8EE0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskService", "TaskService", "{A12FE2C1-2A54-43AC-8F53-61B3E9A5BF70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Task.API", "TaskService\TaskManager.Task.API\TaskManager.Task.API.csproj", "{53B48353-0301-470B-831D-77E34349DD12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TeamService", "TeamService", "{0DF07E3C-A019-42B0-B552-3A4DB7127084}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.API", "TeamService\TaskManager.Team.API\TaskManager.Team.API.csproj", "{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{933460A3-3ACF-4879-8739-126B8DD8EE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933460A3-3ACF-4879-8739-126B8DD8EE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933460A3-3ACF-4879-8739-126B8DD8EE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933460A3-3ACF-4879-8739-126B8DD8EE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53B48353-0301-470B-831D-77E34349DD12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B48353-0301-470B-831D-77E34349DD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B48353-0301-470B-831D-77E34349DD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B48353-0301-470B-831D-77E34349DD12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{933460A3-3ACF-4879-8739-126B8DD8EE0D} = {FA5A78B1-184D-4EA6-AAF5-87FF7957FFFC}
+		{53B48353-0301-470B-831D-77E34349DD12} = {A12FE2C1-2A54-43AC-8F53-61B3E9A5BF70}
+		{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752} = {0DF07E3C-A019-42B0-B552-3A4DB7127084}
+	EndGlobalSection
+EndGlobal

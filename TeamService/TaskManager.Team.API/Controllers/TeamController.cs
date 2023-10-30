@@ -34,4 +34,18 @@ public class TeamController : ControllerBase
         await _teamService.UpdateUser(payload);
         return Ok();
     }
+
+    [HttpGet("GetSingleUser")]
+    public async Task<IActionResult> GetSingleUser([FromQuery] int userId)
+    {
+        var user = await _teamService.GetSingleUser(userId);
+        return Ok(user);
+    }
+    
+    [HttpGet("GetUsers")]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _teamService.GetUsers();
+        return Ok(users);
+    }
 }

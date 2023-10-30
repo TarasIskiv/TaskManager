@@ -1,5 +1,6 @@
 using Dapper;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.Database;
 using TaskManager.Team.Repository.Abstraction;
 
@@ -85,5 +86,47 @@ public class TeamRepository : ITeamRepository
             Salary = payload.Salary,
             WorkSince = payload.WorkSince
         });
+    }
+
+    public async Task<UserResponse> GetSingleUser(int userId)
+    {
+        string sql =
+            """
+            select 
+                UserId,
+                Email,
+                Name,
+                Surname,
+                Role,
+                DateOfBirth,
+                Salary,
+                Nationality,
+                WorkSince
+            from vwUser
+            where UserId = @UserId
+            """;
+        using var connection = _context.CreateConnection();
+        return await connection.QuerySingleAsync<UserResponse>(sql, new { UserId = userId });
+    }
+
+    public async Task<List<UserResponse>> GetUsers()
+    {
+        string sql =
+            """
+            select
+                UserId,
+                Email,
+                Name,
+                Surname,
+                Role,
+                DateOfBirth,
+                Salary,
+                Nationality,
+                WorkSince
+            from vwUser
+            """;
+        using var connection = _context.CreateConnection();
+        var users = await connection.QueryAsync<UserResponse>(sql);
+        return users.ToList();
     }
 }

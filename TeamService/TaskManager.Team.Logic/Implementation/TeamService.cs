@@ -1,5 +1,6 @@
 using TaskManager.Cache.Abstraction;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.Team.Logic.Abstraction;
 using TaskManager.Team.Repository.Abstraction;
 
@@ -29,5 +30,15 @@ public class TeamService : ITeamService
     public async Task UpdateUser(UpdateUserPayload payload)
     {
         await _teamRepository.UpdateUser(payload);
+    }
+
+    public async Task<UserResponse> GetSingleUser(int userId)
+    {
+        return await _teamRepository.GetSingleUser(userId);
+    }
+
+    public async Task<List<UserResponse>> GetUsers()
+    {
+        return await _teamRepository.GetUsers();
     }
 }

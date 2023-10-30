@@ -14,14 +14,14 @@ public class CreateUserPayload
     public string Surname { get; set; } = default!;
     
     [Required, MaxLength(40)]
-    public string Role { get; set; } = default!;
+    public string? Role { get; set; } = default!;
     
-    public DateTime DateOfBirth { get; set; } = default!;
+    public DateTime? DateOfBirth { get; set; } = default!;
     
-    public float Salary { get; set; }
+    public float? Salary { get; set; }
 
-    public string Nationality { get; set; } = default!;
+    public string? Nationality { get; set; } = default!;
     
-    public DateTime WorkSince { get; set; } = default!;
+    public DateTime? WorkSince { get; set; } = default!;
 
 }

@@ -4,6 +4,7 @@ namespace TaskManager.Team.Logic.Abstraction;
 
 public interface ITeamService
 {
-    Task CreateUser(UpsertUserPayload payload);
+    Task CreateUser(CreateUserPayload payload);
     Task RemoveUser(int userId);
+    Task UpdateUser(UpdateUserPayload payload);
 }

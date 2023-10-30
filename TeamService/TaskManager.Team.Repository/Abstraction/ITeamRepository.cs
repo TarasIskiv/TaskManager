@@ -4,7 +4,7 @@ namespace TaskManager.Team.Repository.Abstraction;
 
 public interface ITeamRepository
 {
-    Task<int> CreateUser(UpsertUserPayload payload);
+    Task<int> CreateUser(CreateUserPayload payload);
     Task RemoveUser(int userId);
-
+    Task UpdateUser(UpdateUserPayload payload);
 }

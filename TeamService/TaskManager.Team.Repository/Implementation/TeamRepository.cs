@@ -13,7 +13,7 @@ public class TeamRepository : ITeamRepository
     {
         _context = context;
     }
-    public async Task<int> CreateUser(UpsertUserPayload payload)
+    public async Task<int> CreateUser(CreateUserPayload payload)
     {
         string sql = 
             """
@@ -61,5 +61,29 @@ public class TeamRepository : ITeamRepository
             """;
         using var connection = _context.CreateConnection();
         await connection.ExecuteAsync(sql, new {UserId = userId});
+    }
+
+    public async Task UpdateUser(UpdateUserPayload payload)
+    {
+        string sql =
+            """
+            Update UserDetails
+            Set Role = @Role,
+                DateOfBirth = @DateOfBirth,
+                Nationality = @Nationality,
+                Salary = @Salary,
+                WorkSince = @WorkSince
+            WHERE UserId = @UserId
+            """;
+        using var connection = _context.CreateConnection();
+        await connection.ExecuteAsync(sql, new
+        {
+            UserId = payload.UserId,
+            Role = payload.Role,
+            DateOfBirth = payload.DateOfBirth,
+            Nationality = payload.Nationality,
+            Salary = payload.Salary,
+            WorkSince = payload.WorkSince
+        });
     }
 }

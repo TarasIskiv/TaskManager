@@ -16,7 +16,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpPost("CreateUser")]
-    public async Task<IActionResult> CreateUser([FromBody] UpsertUserPayload payload)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserPayload payload)
     {
         await _teamService.CreateUser(payload);
         return Ok();
@@ -25,6 +25,13 @@ public class TeamController : ControllerBase
     [HttpDelete("RemoveUser")]
     public async Task<IActionResult> RemoveUser([FromQuery] int userId)
     {
+        return Ok();
+    }
+
+    [HttpPut("UpdateUser")]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserPayload payload)
+    {
+        await _teamService.UpdateUser(payload);
         return Ok();
     }
 }

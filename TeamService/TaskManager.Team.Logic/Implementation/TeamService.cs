@@ -15,7 +15,7 @@ public class TeamService : ITeamService
         _teamRepository = teamRepository;
         _cacheService = cacheService;
     }
-    public async Task CreateUser(UpsertUserPayload payload)
+    public async Task CreateUser(CreateUserPayload payload)
     {
         var userId = await _teamRepository.CreateUser(payload);
         if(userId == default) return;
@@ -24,5 +24,10 @@ public class TeamService : ITeamService
     public async Task RemoveUser(int userId)
     {
         await _teamRepository.RemoveUser(userId);
+    }
+
+    public async Task UpdateUser(UpdateUserPayload payload)
+    {
+        await _teamRepository.UpdateUser(payload);
     }
 }

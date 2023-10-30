@@ -2,17 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TaskManager.Core.Payloads;
 
-public class UpsertUserPayload
+public class UpdateUserPayload
 {
-    [EmailAddress, Required, MaxLength(50)]
-    public string Email { get; set; } = default!;
-    
-    [Required, MaxLength(30)]
-    public string Name { get; set; } = default!;
-    
-    [Required, MaxLength(30)]
-    public string Surname { get; set; } = default!;
-    
+    [Required]
+    public int UserId { get; set; }
     [Required, MaxLength(40)]
     public string Role { get; set; } = default!;
     
@@ -23,5 +16,4 @@ public class UpsertUserPayload
     public string Nationality { get; set; } = default!;
     
     public DateTime WorkSince { get; set; } = default!;
-
 }

@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\TaskManager.Core\TaskManager.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\TaskManager.Database\TaskManager.Database.csproj" />
+    </ItemGroup>
+
 </Project>

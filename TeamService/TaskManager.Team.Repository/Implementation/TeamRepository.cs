@@ -51,4 +51,15 @@ public class TeamRepository : ITeamRepository
 
         return userId;
     }
+
+    public async Task RemoveUser(int userId)
+    {
+        string sql = 
+            """
+            DELETE FROM UserDetails where UserId = @UserId
+            Delete FROM UserContactInfo where UserId = @UserId
+            """;
+        using var connection = _context.CreateConnection();
+        await connection.ExecuteAsync(sql, new {UserId = userId});
+    }
 }

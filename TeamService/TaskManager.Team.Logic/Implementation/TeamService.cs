@@ -20,4 +20,9 @@ public class TeamService : ITeamService
         var userId = await _teamRepository.CreateUser(payload);
         if(userId == default) return;
     }
+
+    public async Task RemoveUser(int userId)
+    {
+        await _teamRepository.RemoveUser(userId);
+    }
 }

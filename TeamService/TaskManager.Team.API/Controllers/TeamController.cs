@@ -21,4 +21,10 @@ public class TeamController : ControllerBase
         await _teamService.CreateUser(payload);
         return Ok();
     }
+
+    [HttpDelete("RemoveUser")]
+    public async Task<IActionResult> RemoveUser([FromQuery] int userId)
+    {
+        return Ok();
+    }
 }

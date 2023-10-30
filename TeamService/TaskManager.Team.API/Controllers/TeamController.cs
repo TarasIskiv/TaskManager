@@ -25,6 +25,7 @@ public class TeamController : ControllerBase
     [HttpDelete("RemoveUser")]
     public async Task<IActionResult> RemoveUser([FromQuery] int userId)
     {
+        await _teamService.RemoveUser(userId);
         return Ok();
     }
 

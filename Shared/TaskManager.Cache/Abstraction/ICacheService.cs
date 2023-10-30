@@ -8,4 +8,5 @@ public interface ICacheService
     string GetTaskKey(int taskId);
     Task<T> GetData<T>(string key);
     Task SetData<T>(string key, T data);
+    Task RemoveData(string key);
 }

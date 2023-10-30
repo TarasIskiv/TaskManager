@@ -29,8 +29,13 @@ public class CacheService : ICacheService
 
     public async Task SetData<T>(string key, T data)
     {
-        await _cache.RemoveAsync(key);
+        await RemoveData(key);
         var serializedData = JsonSerializer.Serialize(data);
         await _cache.SetStringAsync(key, serializedData, _options);
+    }
+
+    public async Task RemoveData(string key)
+    {
+        await _cache.RemoveAsync(key);
     }
 }

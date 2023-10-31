@@ -23,6 +23,8 @@ public class TeamService : ITeamService
         var user = await _teamRepository.GetSingleUser(userId);
         var key = _cacheService.GetUserKey(userId);
         await _cacheService.SetData(key, user);
+
+        await UpdateCache();
     }
 
     public async Task RemoveUser(int userId)
@@ -30,6 +32,8 @@ public class TeamService : ITeamService
         await _teamRepository.RemoveUser(userId);
         var key = _cacheService.GetUserKey(userId);
         await _cacheService.RemoveData(key);
+
+        await UpdateCache();
     }
 
     public async Task UpdateUser(UpdateUserPayload payload)
@@ -39,6 +43,8 @@ public class TeamService : ITeamService
         if(user == default) return;
         var key = _cacheService.GetUserKey(user.UserId);
         await _cacheService.SetData(key, user);
+
+        await UpdateCache();
     }
 
     public async Task<UserResponse> GetSingleUser(int userId)
@@ -60,8 +66,15 @@ public class TeamService : ITeamService
         if (!users.Any())
         {
             users = await _teamRepository.GetUsers();
-            await _cacheService.SetData(key, users);
+            await UpdateCache();
         }
         return users;
+    }
+
+    private async Task UpdateCache()
+    {
+        var users = await _teamRepository.GetUsers();
+        var key = _cacheService.GetAllUsersKey();
+        await _cacheService.SetData(key, users);
     }
 }

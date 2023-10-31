@@ -17,21 +17,56 @@ public class UserService : IUserService
     }
     public async System.Threading.Tasks.Task CreateUser(UserContactInfo payload)
     {
-        await _userRepository.CreateUser(payload);
+        var userId = await _userRepository.CreateUser(payload);
+        var user = await _userRepository.GetUser(userId);
+        
+        var key = _cacheService.GetUserKey(userId);
+        await _cacheService.SetData(key, user);
+
+        await UpdateCache();
     }
 
     public async System.Threading.Tasks.Task RemoveUser(int userId)
     {
         await _userRepository.RemoveUser(userId);
+        
+        var user = await _userRepository.GetUser(userId);
+        var key = _cacheService.GetUserKey(userId);
+        await _cacheService.RemoveData(key);
+
+        await UpdateCache();
     }
 
     public async Task<UserContactInfo> GetUser(int userId)
     {
-        return await _userRepository.GetUser(userId);
+        var key = _cacheService.GetUserKey(userId);
+        var user = await _cacheService.GetData<UserContactInfo>(key);
+        if (user == default)
+        {
+            user = await _userRepository.GetUser(userId);
+            await _cacheService.SetData(key, user);
+        }
+
+        return user;
     }
 
     public async Task<List<UserContactInfo>> GetUsers()
     {
-        return await _userRepository.GetUsers();
+        var key = _cacheService.GetAllUsersKey();
+        var users = await _cacheService.GetData<List<UserContactInfo>>(key);
+        if (!users.Any())
+        {
+            users = await _userRepository.GetUsers();
+            await UpdateCache();
+        }
+
+        return users;
+    }
+
+    private async System.Threading.Tasks.Task UpdateCache()
+    {
+        var users = await _userRepository.GetUsers();
+        var key = _cacheService.GetAllUsersKey();
+        await _cacheService.SetData(key, users);
     }
 }

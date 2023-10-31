@@ -14,15 +14,19 @@ public class UserRepository : IUserRepository
     {
         _context = context;
     }
-    public async System.Threading.Tasks.Task CreateUser(UserContactInfo payload)
+    public async Task<int> CreateUser(UserContactInfo payload)
     {
         string sql =
             """
+            DECLARE @UserId int
             INSERT Into UserContactInfo (Email, Name, Surname)
+            Output @Userid = inserted.UserId
             VALUES (@Email, @Name, @Surname)
+            
+            Return @UserId
             """;
         using var connection = _context.CreateConnection();
-        await connection.ExecuteAsync(sql, new { Email = payload.Email, Name = payload.Name, Surname = payload.Surname });
+        return await connection.QuerySingleAsync<int>(sql, new { Email = payload.Email, Name = payload.Name, Surname = payload.Surname });
     }
 
     public async System.Threading.Tasks.Task RemoveUser(int userId)

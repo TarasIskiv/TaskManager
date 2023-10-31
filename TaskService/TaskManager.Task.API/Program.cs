@@ -1,5 +1,9 @@
 using TaskManager.Core.QueueConfig;
 using TaskManager.Database;
+using TaskManager.Task.Logic.Abstraction;
+using TaskManager.Task.Logic.Implementation;
+using TaskManager.Task.Repository.Abstraction;
+using TaskManager.Task.Repository.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,9 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.Configure<QueueConfig>(builder.Configuration.GetSection("MessageBroker"));
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

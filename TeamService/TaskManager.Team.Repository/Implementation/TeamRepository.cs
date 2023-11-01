@@ -18,27 +18,28 @@ public class TeamRepository : ITeamRepository
     {
         string sql = 
             """
-            IF NOT EXISTS (SELECT * FROM UserContactInfo WHERE Email = '@Email' )
-                BEGIN
-                    DECLARE @InsertedUserId int
+            DECLARE @InsertedUserIds TABLE (UserId int)  -- Create a table variable to store the UserId
+            DECLARE @InsertedUserId int = 0
+            IF NOT EXISTS (SELECT * FROM UserContactInfo WHERE Email = @Email)
+            BEGIN
+                INSERT INTO UserContactInfo (Email, Name, Surname)
+                OUTPUT inserted.UserId INTO @InsertedUserIds(UserId)
+                VALUES (@Email, @Name, @Surname)
             
-                    INSERT INTO UserContactInfo (Email, Name, Surname)
-                    OUTPUT @InsertedUserId = inserted.UserId
-                    VALUES (@Email, @Name, @Surname)
-                    
-                    INSERT INTO UserDetails(UserId, Role, DateOfBirth, Nationality, Salary, WorkSince)
-                    VALUES (@InsertedUserId, @Role, @DateOfBirth, @Nationality, @Salary, @WorkSince)
-                    
-                    Return @InsertedUserId
-                END
-            ELSE
-                BEGIN  
-                    Return 0;
-                END      
+                INSERT INTO UserDetails(UserId, Role, DateOfBirth, Nationality, Salary, WorkSince)
+                SELECT UserId, @Role, @DateOfBirth, @Nationality, @Salary, @WorkSince
+                FROM @InsertedUserIds  -- Retrieve UserId from the table variable
+            
+                  -- Declare the variable here
+                SELECT @InsertedUserId = UserId FROM @InsertedUserIds
+            
+            END
+            
+            SELECT @InsertedUserId      
             """;
 
         using var connection = _context.CreateConnection();
-        var userId = await connection.ExecuteAsync(sql, new
+        var userId = await connection.QuerySingleAsync<int>(sql, new
         {
             Email = payload.Email,
             Name = payload.Name,

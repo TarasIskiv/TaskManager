@@ -1,8 +1,13 @@
 using TaskManager.Cache.Abstraction;
+using TaskManager.Core.CustomMapper;
+using TaskManager.Core.Enums;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.QueueConfig;
 using TaskManager.Core.Responses;
+using TaskManager.MessageBroker.Abstraction;
 using TaskManager.Team.Logic.Abstraction;
 using TaskManager.Team.Repository.Abstraction;
+using TaskManager.Core.CustomMapper;
 
 namespace TaskManager.Team.Logic.Implementation;
 
@@ -10,11 +15,13 @@ public class TeamService : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
     private readonly ICacheService _cacheService;
+    private readonly IQueueService _queueService;
 
-    public TeamService(ITeamRepository teamRepository, ICacheService cacheService)
+    public TeamService(ITeamRepository teamRepository, ICacheService cacheService, IQueueService queueService)
     {
         _teamRepository = teamRepository;
         _cacheService = cacheService;
+        _queueService = queueService;
     }
     public async Task CreateUser(CreateUserPayload payload)
     {
@@ -25,6 +32,7 @@ public class TeamService : ITeamService
         await _cacheService.SetData(key, user);
 
         await UpdateCache();
+        await SendMessage(userId, UserActionType.Create, user);
     }
 
     public async Task RemoveUser(int userId)
@@ -34,6 +42,7 @@ public class TeamService : ITeamService
         await _cacheService.RemoveData(key);
 
         await UpdateCache();
+        await SendMessage(userId, UserActionType.Remove);
     }
 
     public async Task UpdateUser(UpdateUserPayload payload)
@@ -76,5 +85,15 @@ public class TeamService : ITeamService
         var users = await _teamRepository.GetUsers();
         var key = _cacheService.GetAllUsersKey();
         await _cacheService.SetData(key, users);
+    }
+
+    private async Task SendMessage(int userId, UserActionType actionType, UserResponse? user = default)
+    {
+        var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);
+        var messageUser = user == default ? default(UserContactInfo) : user!.Value.MapToUserContactInfo();
+        await _queueService.PushMessage(
+            new QueueUserMessage()
+                { UserId = userId, ActionType = actionType, User = messageUser },
+            queueName);
     }
 }

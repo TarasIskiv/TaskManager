@@ -15,9 +15,9 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _cacheService = cacheService;
     }
-    public async System.Threading.Tasks.Task CreateUser(UserContactInfo payload)
+    public async System.Threading.Tasks.Task CreateUser(int userId, UserContactInfo payload)
     {
-        var userId = await _userRepository.CreateUser(payload);
+        await _userRepository.CreateUser(payload);
         var user = await _userRepository.GetUser(userId);
         
         var key = _cacheService.GetUserKey(userId);

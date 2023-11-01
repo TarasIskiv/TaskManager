@@ -2,6 +2,7 @@ using System.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using TaskManager.Core.QueueConfig;
@@ -14,10 +15,10 @@ public class QueueService : IQueueService
     private ConnectionFactory _factory;
     private IConnection _connection;
     private readonly QueueConfig _config;
-    public QueueService(QueueConfig config)
+    public QueueService(IOptions<QueueConfig> config)
     {
+        _config = config.Value;
         DefineFactory();
-        _config = config;
     }
 
     private void DefineFactory()
@@ -31,7 +32,7 @@ public class QueueService : IQueueService
     {
         _connection = _factory.CreateConnection();
         IChannel channel = _connection.CreateChannel();
-        channel.ExchangeDeclare("", ExchangeType.Direct);
+        channel.ExchangeDeclare(_config.ExchangeName, ExchangeType.Direct);
         channel.QueueDeclare(queueName, false, false, false, null);
         channel.QueueBind(queueName, _config.ExchangeName, _config.RoutingKey, null);
         channel.BasicQos(0, 1, false);

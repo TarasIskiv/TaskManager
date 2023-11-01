@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\TaskManager.Cache\TaskManager.Cache.csproj" />
       <ProjectReference Include="..\..\Shared\TaskManager.Core\TaskManager.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\TaskManager.MessageBroker\TaskManager.MessageBroker.csproj" />
       <ProjectReference Include="..\TaskManager.Team.Repository\TaskManager.Team.Repository.csproj" />
     </ItemGroup>
 

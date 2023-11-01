@@ -1,5 +1,9 @@
+using TaskManager.Cache.Abstraction;
+using TaskManager.Cache.Implementation;
 using TaskManager.Core.QueueConfig;
 using TaskManager.Database;
+using TaskManager.MessageBroker.Abstraction;
+using TaskManager.MessageBroker.Implementation;
 using TaskManager.Task.Logic.Abstraction;
 using TaskManager.Task.Logic.Implementation;
 using TaskManager.Task.Repository.Abstraction;
@@ -17,11 +21,14 @@ builder.Services.AddStackExchangeRedisCache(opt =>
     opt.InstanceName = "TaskManager/Team/";
 });
 
+builder.Services.AddHostedService<MessageListener>();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.Configure<QueueConfig>(builder.Configuration.GetSection("MessageBroker"));
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IQueueService, QueueService>();
 
 var app = builder.Build();
 

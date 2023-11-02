@@ -1,5 +1,6 @@
 using Dapper;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.Database;
 using TaskManager.Task.Repository.Abstraction;
 
@@ -34,5 +35,10 @@ public class TaskRepository : ITaskRepository
                 Status = payload.Status,
                 Priority = payload.Priority
             });
+    }
+
+    public Task<TaskResponse> GetTask(int taskId)
+    {
+        throw new NotImplementedException();
     }
 }

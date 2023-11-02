@@ -7,7 +7,7 @@ public class CreateTaskPayload
 {
     [Required, MaxLength(70)]
     public string Title { get; set; } = default!;
-    public string AssignedTo { get; set; } = default!;
+    public int AssignedTo { get; set; } = default!;
     public Priority Priority { get; set; } = Priority.Low;
     public Status Status { get; set; } = Status.New;
 }

@@ -1,6 +1,7 @@
 using StackExchange.Redis;
 using TaskManager.Cache.Abstraction;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.MessageBroker.Abstraction;
 using TaskManager.Task.Logic.Abstraction;
 using TaskManager.Task.Repository.Abstraction;
@@ -23,6 +24,11 @@ public class TaskService : ITaskService
     {
         await _taskRepository.CreateTask(payload);
         
+    }
+
+    public async Task<TaskResponse> GetTask(int taskId)
+    {
+        return await _taskRepository.GetTask(taskId);
     }
 
     private System.Threading.Tasks.Task PushMessage()

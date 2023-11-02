@@ -22,13 +22,42 @@ public class TaskService : ITaskService
     }
     public async System.Threading.Tasks.Task CreateTask(CreateTaskPayload payload)
     {
-        await _taskRepository.CreateTask(payload);
-        
+        var taskId = await _taskRepository.CreateTask(payload);
+        if(taskId == default) return;
+
+        var task = await _taskRepository.GetTask(taskId);
+        var key = _cacheService.GetTaskKey(taskId);
+        await _cacheService.SetData(key, task);
+        await UpdateCache();
+
+        if (!string.IsNullOrEmpty(task.AssignedTo))
+        {
+            //push message to the queue
+        }
     }
 
     public async Task<TaskResponse> GetTask(int taskId)
     {
-        return await _taskRepository.GetTask(taskId);
+        var key = _cacheService.GetTaskKey(taskId);
+        var task = await _cacheService.GetData<TaskResponse>(key);
+        if (task == default)
+        {
+            task = await _taskRepository.GetTask(taskId);
+            await _cacheService.SetData(key, task);
+        }
+        return task;
+    }
+
+    public async Task<List<TaskResponse>> GetTasks()
+    {
+        var key = _cacheService.GetAllTasksKey();
+        var tasks = await _cacheService.GetData<List<TaskResponse>>(key);
+        if (!tasks.Any())
+        {
+            tasks = await _taskRepository.GetTasks();
+        }
+        await UpdateCache();
+        return tasks;
     }
 
     private System.Threading.Tasks.Task PushMessage()
@@ -36,8 +65,10 @@ public class TaskService : ITaskService
         throw new NotImplementedException();
     }
     
-    private System.Threading.Tasks.Task UpdateCache()
+    private async System.Threading.Tasks.Task UpdateCache()
     {
-        throw new NotImplementedException();
+        var tasks = await _taskRepository.GetTasks();
+        var key = _cacheService.GetAllTasksKey();
+        await _cacheService.SetData(key, tasks);
     }
 }

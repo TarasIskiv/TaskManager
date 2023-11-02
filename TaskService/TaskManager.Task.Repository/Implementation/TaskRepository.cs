@@ -14,7 +14,7 @@ public class TaskRepository : ITaskRepository
     {
         _context = context;
     }
-    public async System.Threading.Tasks.Task CreateTask(CreateTaskPayload payload)
+    public async Task<int> CreateTask(CreateTaskPayload payload)
     {
         string sql = 
             """
@@ -26,19 +26,62 @@ public class TaskRepository : ITaskRepository
                 
                 INSERT INTO TaskDetails(TaskId, Priority)
                 VALUES(TaskId, @Priority)
+                
+                SELECT TOP 1 TaskId from @InsertedTaskIds
             """;
         using var connection = _context.CreateConnection();
-        await connection.ExecuteAsync(sql, new 
+        var taskId = await connection.QuerySingleAsync<int>(sql, new 
             { 
                 Title = payload.Title,
                 AssignedTo = payload.AssignedTo,
                 Status = payload.Status,
                 Priority = payload.Priority
             });
+        return taskId;
     }
 
-    public Task<TaskResponse> GetTask(int taskId)
+    public async Task<TaskResponse> GetTask(int taskId)
     {
-        throw new NotImplementedException();
+        string sql = 
+            """
+                SELECT
+                    TaskId,
+                    Title,
+                    Description,
+                    AcceptanceCriteria,
+                    StatusInfo,
+                    UserId,
+                    AssignedTo,
+                    StoryPoints,
+                    PriorityInfo,
+                    CreationDate
+                FROM vwTask
+                WHERE TaskId = taskId
+            """;
+        using var connection = _context.CreateConnection();
+        var task = await connection.QuerySingleOrDefaultAsync<TaskResponse>(sql, new { TaskId = taskId });
+        return task;
+    }
+
+    public async Task<List<TaskResponse>> GetTasks()
+    {
+        string sql = 
+            """
+                SELECT
+                    TaskId,
+                    Title,
+                    Description,
+                    AcceptanceCriteria,
+                    StatusInfo,
+                    UserId,
+                    AssignedTo,
+                    StoryPoints,
+                    PriorityInfo,
+                    CreationDate
+                FROM vwTask
+            """;
+        using var connection = _context.CreateConnection();
+        var tasks = await connection.QueryAsync<TaskResponse>(sql);
+        return tasks.ToList();
     }
 }

@@ -5,7 +5,7 @@ namespace TaskManager.Task.Repository.Abstraction;
 
 public interface ITaskRepository
 {
-    System.Threading.Tasks.Task CreateTask(CreateTaskPayload payload);
+    Task<int> CreateTask(CreateTaskPayload payload);
     Task<TaskResponse> GetTask(int taskId);
-
+    Task<List<TaskResponse>> GetTasks();
 }

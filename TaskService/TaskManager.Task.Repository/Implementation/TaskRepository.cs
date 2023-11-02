@@ -84,4 +84,18 @@ public class TaskRepository : ITaskRepository
         var tasks = await connection.QueryAsync<TaskResponse>(sql);
         return tasks.ToList();
     }
+
+    public async System.Threading.Tasks.Task RemoveTask(int taskId)
+    {
+        string sql = 
+            """
+                DELETE FROM TaskDetails
+                WHERE TaskId = @TaskId;
+
+                DELETE FROM TaskInfo
+                where TaskID = @TaskId;
+            """;
+        using var connection = _context.CreateConnection();
+        await connection.ExecuteAsync(sql, new { TaskId = taskId });
+    }
 }

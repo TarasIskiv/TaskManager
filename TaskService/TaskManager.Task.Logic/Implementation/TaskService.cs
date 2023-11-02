@@ -60,6 +60,20 @@ public class TaskService : ITaskService
         return tasks;
     }
 
+    public async System.Threading.Tasks.Task RemoveTask(int taskId)
+    {
+        var task = await _taskRepository.GetTask(taskId);
+        if (task == default) return;
+        await _taskRepository.RemoveTask(taskId);
+        var key = _cacheService.GetTaskKey(taskId);
+        await _cacheService.RemoveData(key);
+        await UpdateCache();
+        if (!string.IsNullOrEmpty(task.AssignedTo))
+        {
+            //push message to the queue
+        }
+    }
+
     private System.Threading.Tasks.Task PushMessage()
     {
         throw new NotImplementedException();

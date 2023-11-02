@@ -8,4 +8,6 @@ public interface ITaskRepository
     Task<int> CreateTask(CreateTaskPayload payload);
     Task<TaskResponse> GetTask(int taskId);
     Task<List<TaskResponse>> GetTasks();
+    System.Threading.Tasks.Task RemoveTask(int taskId);
+
 }

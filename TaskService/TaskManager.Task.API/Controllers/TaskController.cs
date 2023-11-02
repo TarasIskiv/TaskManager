@@ -36,4 +36,10 @@ public class TaskController : ControllerBase
         return Ok(tasks);
     }
 
+    [HttpDelete("RemoveTask")]
+    public async Task<IActionResult> RemoveTask([FromQuery] int taskId)
+    {
+        await _taskService.RemoveTask(taskId);
+        return Ok();
+    }
 }

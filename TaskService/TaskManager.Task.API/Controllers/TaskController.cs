@@ -42,4 +42,11 @@ public class TaskController : ControllerBase
         await _taskService.RemoveTask(taskId);
         return Ok();
     }
+
+    [HttpPut("UpdateTask")]
+    public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskPayload payload)
+    {
+        await _taskService.UpdateTask(payload);
+        return Ok();
+    }
 }

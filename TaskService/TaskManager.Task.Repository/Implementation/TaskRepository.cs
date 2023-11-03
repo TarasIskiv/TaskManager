@@ -1,4 +1,5 @@
 using Dapper;
+using TaskManager.Core.Enums;
 using TaskManager.Core.Payloads;
 using TaskManager.Core.Responses;
 using TaskManager.Database;
@@ -97,5 +98,35 @@ public class TaskRepository : ITaskRepository
             """;
         using var connection = _context.CreateConnection();
         await connection.ExecuteAsync(sql, new { TaskId = taskId });
+    }
+
+    public async System.Threading.Tasks.Task UpdateTask(UpdateTaskPayload payload)
+    {
+        string sql = 
+            """
+                UPDATE TaskInfo
+                SET Title = @Title,
+                    AssignedTo = @AssignedTo,
+                    Status = @Status
+                WHERE TaskId = @TaskId
+                
+                UPDATE TaskDetails
+                SET Descritption = @Description,
+                    AcceptanceCriteria = @AcceptanceCriteria,
+                    StoryPoints = @StoryPoints,
+                    Priority = @Priority
+                WHERE TaskId = @TaskId
+            """;
+        using var connection = _context.CreateConnection();
+        await connection.ExecuteAsync(sql, new
+        {
+            TaskId = payload.TaskId,
+            AssignedTo = payload.AssignedTo,
+            Status = payload.Status,
+            Description = payload.Description,
+            AcceptanceCriteria = payload.AcceptanceCriteria,
+            StoryPoints = payload.StoryPoints,
+            Priority = payload.Priority
+        });
     }
 }

@@ -74,6 +74,23 @@ public class TaskService : ITaskService
         }
     }
 
+    public async System.Threading.Tasks.Task UpdateTask(UpdateTaskPayload payload)
+    {
+        var taskBeforeUpdate = await _taskRepository.GetTask(payload.TaskId);
+        if(taskBeforeUpdate == default) return;
+        await _taskRepository.UpdateTask(payload);
+        var task = await _taskRepository.GetTask(payload.TaskId);
+
+        var key = _cacheService.GetTaskKey(payload.TaskId);
+        await _cacheService.SetData(key, task);
+        await UpdateCache();
+
+        if (taskBeforeUpdate.AssignedTo != task.AssignedTo)
+        {
+            //push message to the queue
+        }
+    }
+
     private System.Threading.Tasks.Task PushMessage()
     {
         throw new NotImplementedException();

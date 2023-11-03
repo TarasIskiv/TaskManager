@@ -9,4 +9,5 @@ public interface ITaskService
     Task<TaskResponse> GetTask(int taskId);
     Task<List<TaskResponse>> GetTasks();
     System.Threading.Tasks.Task RemoveTask(int taskId);
+    System.Threading.Tasks.Task UpdateTask(UpdateTaskPayload payload);
 }

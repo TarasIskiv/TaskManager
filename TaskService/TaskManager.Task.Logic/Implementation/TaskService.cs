@@ -1,6 +1,8 @@
 using StackExchange.Redis;
 using TaskManager.Cache.Abstraction;
+using TaskManager.Core.Helpers;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.QueueConfig;
 using TaskManager.Core.Responses;
 using TaskManager.MessageBroker.Abstraction;
 using TaskManager.Task.Logic.Abstraction;
@@ -13,12 +15,14 @@ public class TaskService : ITaskService
     private readonly ITaskRepository _taskRepository;
     private readonly ICacheService _cacheService;
     private readonly IQueueService _queueService;
+    private readonly IUserService _userService;
 
-    public TaskService(ITaskRepository taskRepository, ICacheService cacheService, IQueueService queueService)
+    public TaskService(ITaskRepository taskRepository, ICacheService cacheService, IQueueService queueService, IUserService userService)
     {
         _taskRepository = taskRepository;
         _cacheService = cacheService;
         _queueService = queueService;
+        _userService = userService;
     }
     public async System.Threading.Tasks.Task CreateTask(CreateTaskPayload payload)
     {
@@ -32,7 +36,8 @@ public class TaskService : ITaskService
 
         if (!string.IsNullOrEmpty(task.AssignedTo))
         {
-            //push message to the queue
+            var user = await _userService.GetUser(task.UserId);
+            await PushMessage(task, user, true);
         }
     }
 
@@ -70,7 +75,8 @@ public class TaskService : ITaskService
         await UpdateCache();
         if (!string.IsNullOrEmpty(task.AssignedTo))
         {
-            //push message to the queue
+            var user = await _userService.GetUser(task.UserId);
+            await PushMessage(task, user, false);
         }
     }
 
@@ -87,13 +93,26 @@ public class TaskService : ITaskService
 
         if (taskBeforeUpdate.AssignedTo != task.AssignedTo)
         {
-            //push message to the queue
+            var user = await _userService.GetUser(taskBeforeUpdate.UserId);
+            await PushMessage(task, user, false);
+
+            user = await _userService.GetUser(task.UserId);
+            await PushMessage(task, user, true);
         }
     }
 
-    private System.Threading.Tasks.Task PushMessage()
+    private async System.Threading.Tasks.Task PushMessage(TaskResponse task, UserContactInfo user, bool isAssigned)
     {
-        throw new NotImplementedException();
+        var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);
+        await _queueService.PushMessage(
+            new QueueNotificationMessage()
+            {
+                Context = NotificationHelper.GetContext(isAssigned, task, user.Name) ,
+                ReceiverEmail = user.Email,
+                ReceiverFullName = string.Concat(user.Name, " ", user.Surname),
+                Subject = NotificationHelper.GetSubject(isAssigned, task.TaskId)
+            },
+            queueName);
     }
     
     private async System.Threading.Tasks.Task UpdateCache()

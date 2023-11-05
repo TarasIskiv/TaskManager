@@ -12,4 +12,5 @@ public interface ITaskRepository
     System.Threading.Tasks.Task UpdateTask(UpdateTaskPayload payload);
     Task<List<int>> GetAllUserTasks(int userId);
     System.Threading.Tasks.Task UpdateAuthorForAllUserTasks(int taskId);
+    System.Threading.Tasks.Task InitializeDatabase();
 }

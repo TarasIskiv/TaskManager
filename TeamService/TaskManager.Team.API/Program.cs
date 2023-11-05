@@ -31,6 +31,8 @@ builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IQueueService, QueueService>();
 
 var app = builder.Build();
+using var scope = app.Services.CreateScope();
+scope.ServiceProvider.GetService<DapperContext>();
 
 if (app.Environment.IsDevelopment())
 {

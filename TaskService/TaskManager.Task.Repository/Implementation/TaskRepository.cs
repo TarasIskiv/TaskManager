@@ -156,4 +156,9 @@ public class TaskRepository : ITaskRepository
         using var connection = _context.CreateConnection();
         await connection.ExecuteAsync(sql, new { TaskId = taskId });
     }
+
+    public System.Threading.Tasks.Task InitializeDatabase()
+    {
+        throw new NotImplementedException();
+    }
 }

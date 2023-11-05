@@ -23,8 +23,7 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 });
 
 builder.Services.AddSingleton<DapperContext>();
-builder.Services.Configure<QueueConfig>(builder.Configuration.GetSection("MessageBroker"));
-//builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<QueueConfig>>().Value);
+builder.Services.Configure<QueueBaseConfig>(builder.Configuration.GetSection("MessageBroker"));
 
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<ICacheService, CacheService>();

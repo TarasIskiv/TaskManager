@@ -1,5 +1,6 @@
 using TaskManager.Cache.Abstraction;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.Task.Logic.Abstraction;
 using TaskManager.Task.Repository.Abstraction;
 
@@ -40,10 +41,10 @@ public class UserService : IUserService
         await UpdateCache();
     }
 
-    public async Task<UserContactInfo> GetUser(int userId)
+    public async Task<UserContactInfoResponse> GetUser(int userId)
     {
         var key = _cacheService.GetUserKey(userId);
-        var user = await _cacheService.GetData<UserContactInfo>(key);
+        var user = await _cacheService.GetData<UserContactInfoResponse>(key);
         if (user == default)
         {
             user = await _userRepository.GetUser(userId);
@@ -53,10 +54,10 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<List<UserContactInfo>> GetUsers()
+    public async Task<List<UserContactInfoResponse>> GetUsers()
     {
         var key = _cacheService.GetAllUsersKey();
-        var users = await _cacheService.GetData<List<UserContactInfo>>(key);
+        var users = await _cacheService.GetData<List<UserContactInfoResponse>>(key);
         if (!users.Any())
         {
             users = await _userRepository.GetUsers();

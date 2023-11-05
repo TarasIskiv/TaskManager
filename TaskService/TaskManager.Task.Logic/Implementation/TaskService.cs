@@ -120,9 +120,9 @@ public class TaskService : ITaskService
         await UpdateCache();
     }
 
-    private async System.Threading.Tasks.Task PushMessage(TaskResponse task, UserContactInfo user, bool isAssigned)
+    private async System.Threading.Tasks.Task PushMessage(TaskResponse task, UserContactInfoResponse user, bool isAssigned)
     {
-        var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);
+        var queueConfig = _queueService.GetQueueConfiguration(QueueConnection.TaskNotificationConnection);
         await _queueService.PushMessage(
             new QueueNotificationMessage()
             {
@@ -131,7 +131,7 @@ public class TaskService : ITaskService
                 ReceiverFullName = string.Concat(user.Name, " ", user.Surname),
                 Subject = NotificationHelper.GetSubject(isAssigned, task.TaskId)
             },
-            queueName);
+            queueConfig);
     }
     
     private async System.Threading.Tasks.Task UpdateCache()

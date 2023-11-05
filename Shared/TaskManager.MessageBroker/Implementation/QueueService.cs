@@ -14,51 +14,47 @@ public class QueueService : IQueueService
 {
     private ConnectionFactory _factory;
     private IConnection _connection;
-    private readonly QueueConfig _config;
-    public QueueService(IOptions<QueueConfig> config)
+    private readonly QueueBaseConfig _baseConfig;
+    public QueueService(IOptions<QueueBaseConfig> config)
     {
-        _config = config.Value;
+        _baseConfig = config.Value;
         DefineFactory();
     }
 
     private void DefineFactory()
     {
         _factory = new();
-        _factory.Uri = new(_config.Uri);
-        _factory.ClientProvidedName = _config.ClientName;
+        _factory.Uri = new(_baseConfig.Uri);
+        _factory.ClientProvidedName = _baseConfig.ClientName;
     }
 
-    private IChannel SetupChannel(string queueName)
+    private IChannel SetupChannel(QueueMessageConfig config)
     {
         _connection = _factory.CreateConnection();
         IChannel channel = _connection.CreateChannel();
-        channel.ExchangeDeclare(_config.ExchangeName, ExchangeType.Direct);
-        channel.QueueDeclare(queueName, false, false, false, null);
-        channel.QueueBind(queueName, _config.ExchangeName, _config.RoutingKey, null);
+        channel.ExchangeDeclare(config.ExchangeName, ExchangeType.Direct);
+        channel.QueueDeclare(config.QueueName, false, false, false, null);
+        channel.QueueBind(config.QueueName, config.ExchangeName, config.RoutingKeyName, null);
         channel.BasicQos(0, 1, false);
         return channel;
     }
     
-    public async Task PushMessage<T>(T message, string queueName)
+    public async Task PushMessage<T>(T message,QueueMessageConfig config)
     {
-        var channel = SetupChannel(queueName);
+        var channel = SetupChannel(config);
         var messageBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
-        await channel.BasicPublishAsync(_config.ExchangeName, _config.RoutingKey, messageBody);
+        await channel.BasicPublishAsync(config.ExchangeName, config.RoutingKeyName, messageBody);
         channel.Close();
         _connection.Close();
     }
 
-    public T ReceiveMessage<T>(string queueName)
+    public T ReceiveMessage<T>(QueueMessageConfig config)
     {
-        var channel = SetupChannel(queueName);
-        var consumer = new EventingBasicConsumer(channel);
-        string message = string.Empty;
-        consumer.Received += (model, mes) =>
-        {
-            var body = mes.Body.ToArray();
-            message = Encoding.UTF8.GetString(body);
-        };
-        channel.BasicConsume(queueName, true, consumer);
+        var channel = SetupChannel(config);
+        var result = channel.BasicGet(config.QueueName, true);
+        if (result is null) return default(T)!;
+        var body = result.Body.ToArray();
+        var message = Encoding.UTF8.GetString(body);
         channel.Close();
         _connection.Close();
         if (string.IsNullOrEmpty(message)) return default(T)!;
@@ -66,12 +62,22 @@ public class QueueService : IQueueService
         return deserializedMessage ?? default(T)!;
     }
 
-    public string GetQueueName(QueueConnection connection)
+    public QueueMessageConfig GetQueueConfiguration(QueueConnection connection)
     {
         return connection switch
         {
-            QueueConnection.TaskNotificationConnection => "TaskNotificationQueue",
-            QueueConnection.TaskTeamConnection => "TaskTeamQueue"
+            QueueConnection.TaskNotificationConnection => new QueueMessageConfig()
+            {
+                QueueName = "TaskNotificationQueue",
+                ExchangeName = "TaskManagerNotificationExchange",
+                RoutingKeyName = "TaskManagerNotificationRoutingKey"
+            } ,
+            QueueConnection.TaskTeamConnection =>new QueueMessageConfig()
+            {
+                QueueName = "TaskTeamQueue",
+                ExchangeName = "TaskManagerExchange",
+                RoutingKeyName = "TaskManagerRoutingKey"
+            }
         };
     }
 }

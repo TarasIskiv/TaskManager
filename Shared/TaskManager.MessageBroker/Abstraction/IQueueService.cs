@@ -4,7 +4,7 @@ namespace TaskManager.MessageBroker.Abstraction;
 
 public interface IQueueService
 {
-    Task PushMessage<T>(T message, string queueName);
-    T ReceiveMessage<T>(string queueName);
-    string GetQueueName(QueueConnection connection);
+    Task PushMessage<T>(T message,QueueMessageConfig config);
+    T ReceiveMessage<T>(QueueMessageConfig config);
+    QueueMessageConfig GetQueueConfiguration(QueueConnection connection);
 }

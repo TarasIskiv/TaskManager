@@ -1,9 +1,7 @@
 namespace TaskManager.Core.QueueConfig;
 
-public class QueueConfig
+public class QueueBaseConfig
 {
     public string Uri { get; set; } = default!;
     public string ClientName { get; set; } = default!;
-    public string ExchangeName { get; set; } = default!;
-    public string RoutingKey { get; set; } = default!;
 }

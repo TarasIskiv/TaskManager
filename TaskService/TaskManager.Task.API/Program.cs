@@ -23,7 +23,7 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 
 builder.Services.AddHostedService<MessageListener>();
 builder.Services.AddSingleton<DapperContext>();
-builder.Services.Configure<QueueConfig>(builder.Configuration.GetSection("MessageBroker"));
+builder.Services.Configure<QueueBaseConfig>(builder.Configuration.GetSection("MessageBroker"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
@@ -39,8 +39,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -89,11 +89,11 @@ public class TeamService : ITeamService
 
     private async Task SendMessage(int userId, UserActionType actionType, UserResponse? user = default)
     {
-        var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);
+        var queueConfig = _queueService.GetQueueConfiguration(QueueConnection.TaskTeamConnection);
         var messageUser = user == default ? default(UserContactInfo) : user!.Value.MapToUserContactInfo();
         await _queueService.PushMessage(
             new QueueUserMessage()
                 { UserId = userId, ActionType = actionType, User = messageUser },
-            queueName);
+            queueConfig);
     }
 }

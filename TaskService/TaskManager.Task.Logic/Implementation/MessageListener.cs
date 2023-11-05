@@ -20,10 +20,10 @@ public class MessageListener : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var _queueService = scope.ServiceProvider.GetRequiredService<IQueueService>();
         var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-        var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);
+        var queueConfig = _queueService.GetQueueConfiguration(QueueConnection.TaskTeamConnection);
         while (!stoppingToken.IsCancellationRequested)
         {
-            var queueMessage = _queueService.ReceiveMessage<QueueUserMessage>(queueName);
+            var queueMessage = _queueService.ReceiveMessage<QueueUserMessage>(queueConfig);
             if (queueMessage is not null && queueMessage != default)
             {
                 if (queueMessage.ActionType == UserActionType.Create)

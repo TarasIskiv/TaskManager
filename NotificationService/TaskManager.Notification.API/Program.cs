@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<MessageListener>();
 
-builder.Services.Configure<QueueConfig>(builder.Configuration.GetSection("MessageBroker"));
+builder.Services.Configure<QueueBaseConfig>(builder.Configuration.GetSection("MessageBroker"));
 builder.Services.Configure<NotificationConfig>(builder.Configuration.GetSection("NotificationConfig"));
 
 builder.Services.AddScoped<INotificationSenderService, NotificationSenderService>();
@@ -23,8 +23,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -1,6 +1,7 @@
 using Azure.Core;
 using Dapper;
 using TaskManager.Core.Payloads;
+using TaskManager.Core.Responses;
 using TaskManager.Database;
 using TaskManager.Task.Repository.Abstraction;
 
@@ -35,7 +36,7 @@ public class UserRepository : IUserRepository
         await connection.ExecuteAsync(sql, new { UserId = userId });
     }
 
-    public async Task<UserContactInfo> GetUser(int userId)
+    public async Task<UserContactInfoResponse> GetUser(int userId)
     {
         string sql =
             """
@@ -48,10 +49,10 @@ public class UserRepository : IUserRepository
             where UserId = @UserId
             """;
         using var connection = _context.CreateConnection();
-        return await connection.QuerySingleAsync<UserContactInfo>(sql, new { UserId = userId });
+        return await connection.QuerySingleAsync<UserContactInfoResponse>(sql, new { UserId = userId });
     }
 
-    public async Task<List<UserContactInfo>> GetUsers()
+    public async Task<List<UserContactInfoResponse>> GetUsers()
     {
         string sql =
             """
@@ -63,7 +64,7 @@ public class UserRepository : IUserRepository
             from UserContactInfo
             """;
         using var connection = _context.CreateConnection();
-        var users = await connection.QueryAsync<UserContactInfo>(sql);
+        var users = await connection.QueryAsync<UserContactInfoResponse>(sql);
         return users.ToList();
     }
 }

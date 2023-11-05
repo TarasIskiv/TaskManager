@@ -10,4 +10,5 @@ public interface ITaskService
     Task<List<TaskResponse>> GetTasks();
     System.Threading.Tasks.Task RemoveTask(int taskId);
     System.Threading.Tasks.Task UpdateTask(UpdateTaskPayload payload);
+    System.Threading.Tasks.Task UpdateAuthorForAllUserTasks(int userId);
 }

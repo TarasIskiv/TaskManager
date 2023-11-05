@@ -129,4 +129,30 @@ public class TaskRepository : ITaskRepository
             Priority = payload.Priority
         });
     }
+
+    public async Task<List<int>> GetAllUserTasks(int userId)
+    {
+        string sql =
+            """
+            SELECT TaskId
+            from TaskInfo where UserId = @UserId
+            """;
+
+        using var connection = _context.CreateConnection();
+        var taskIds = await connection.QueryAsync<int>(sql, new { UserId = userId });
+        return taskIds.ToList();
+    }
+
+    public async System.Threading.Tasks.Task UpdateAuthorForAllUserTasks(int taskId)
+    {
+        string sql =
+            """
+            Update TaskInfo
+            Set AssignedTo = 0
+            where TaskId = @TaskId
+            """;
+
+        using var connection = _context.CreateConnection();
+        await connection.ExecuteAsync(sql, new { TaskId = taskId });
+    }
 }

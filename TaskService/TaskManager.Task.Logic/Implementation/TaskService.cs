@@ -101,6 +101,20 @@ public class TaskService : ITaskService
         }
     }
 
+    public async System.Threading.Tasks.Task UpdateAuthorForAllUserTasks(int userId)
+    {
+        var taskIds = await _taskRepository.GetAllUserTasks(userId);
+        foreach (var taskId in taskIds)
+        {
+            var key = _cacheService.GetTaskKey(taskId);
+            await _taskRepository.UpdateAuthorForAllUserTasks(taskId);
+            var task = await _taskRepository.GetTask(taskId);
+            await _cacheService.SetData(key, task);
+        }
+
+        await UpdateCache();
+    }
+
     private async System.Threading.Tasks.Task PushMessage(TaskResponse task, UserContactInfo user, bool isAssigned)
     {
         var queueName = _queueService.GetQueueName(QueueConnection.TaskTeamConnection);

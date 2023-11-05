@@ -72,7 +72,7 @@ public class TeamService : ITeamService
     {
         var key = _cacheService.GetAllUsersKey();
         var users = await _cacheService.GetData<List<UserResponse>>(key);
-        if (!users.Any())
+        if (users is null || !users.Any())
         {
             users = await _teamRepository.GetUsers();
             await UpdateCache();

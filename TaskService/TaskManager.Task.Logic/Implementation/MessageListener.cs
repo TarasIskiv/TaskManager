@@ -24,13 +24,16 @@ public class MessageListener : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             var queueMessage = _queueService.ReceiveMessage<QueueUserMessage>(queueName);
-            if (queueMessage.ActionType == UserActionType.Create)
+            if (queueMessage is not null && queueMessage != default)
             {
-                await _userService.CreateUser(queueMessage.UserId, queueMessage!.User!);
-            }
-            else
-            {
-                await _userService.RemoveUser(queueMessage.UserId);
+                if (queueMessage.ActionType == UserActionType.Create)
+                {
+                    await _userService.CreateUser(queueMessage.UserId, queueMessage!.User!);
+                }
+                else
+                {
+                    await _userService.RemoveUser(queueMessage.UserId);
+                }
             }
             await System.Threading.Tasks.Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }

@@ -26,7 +26,7 @@ public class TaskRepository : ITaskRepository
                 VALUES(@Title, @AssignedTo, GetDate(), @Status)
                 
                 INSERT INTO TaskDetails(TaskId, Priority)
-                VALUES(TaskId, @Priority)
+                Select TaskId, 1 from @InsertedTaskIds
                 
                 SELECT TOP 1 TaskId from @InsertedTaskIds
             """;
@@ -57,7 +57,7 @@ public class TaskRepository : ITaskRepository
                     PriorityInfo,
                     CreationDate
                 FROM vwTask
-                WHERE TaskId = taskId
+                WHERE TaskId = @TaskId
             """;
         using var connection = _context.CreateConnection();
         var task = await connection.QuerySingleOrDefaultAsync<TaskResponse>(sql, new { TaskId = taskId });
@@ -111,7 +111,7 @@ public class TaskRepository : ITaskRepository
                 WHERE TaskId = @TaskId
                 
                 UPDATE TaskDetails
-                SET Descritption = @Description,
+                SET Description = @Description,
                     AcceptanceCriteria = @AcceptanceCriteria,
                     StoryPoints = @StoryPoints,
                     Priority = @Priority
@@ -121,6 +121,7 @@ public class TaskRepository : ITaskRepository
         await connection.ExecuteAsync(sql, new
         {
             TaskId = payload.TaskId,
+            Title = payload.Title,
             AssignedTo = payload.AssignedTo,
             Status = payload.Status,
             Description = payload.Description,

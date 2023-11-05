@@ -9,13 +9,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly ICacheService _cacheService;
-    private readonly ITaskService _taskService;
+    private readonly ITaskRepository _taskRepository;
 
-    public UserService(IUserRepository userRepository, ICacheService cacheService, ITaskService taskService)
+    public UserService(IUserRepository userRepository, ICacheService cacheService, ITaskRepository taskRepository)
     {
         _userRepository = userRepository;
         _cacheService = cacheService;
-        _taskService = taskService;
+        _taskRepository = taskRepository;
     }
     public async System.Threading.Tasks.Task CreateUser(int userId, UserContactInfo payload)
     {
@@ -36,7 +36,7 @@ public class UserService : IUserService
         var key = _cacheService.GetUserKey(userId);
         await _cacheService.RemoveData(key);
 
-        await _taskService.UpdateAuthorForAllUserTasks(userId);
+        await _taskRepository.UpdateAuthorForAllUserTasks(userId);
         await UpdateCache();
     }
 

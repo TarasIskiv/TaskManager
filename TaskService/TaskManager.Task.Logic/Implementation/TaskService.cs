@@ -34,7 +34,7 @@ public class TaskService : ITaskService
         await _cacheService.SetData(key, task);
         await UpdateCache();
 
-        if (!string.IsNullOrEmpty(task.AssignedTo))
+        if (!string.IsNullOrWhiteSpace(task.AssignedTo))
         {
             var user = await _userService.GetUser(task.UserId);
             await PushMessage(task, user, true);
@@ -57,7 +57,7 @@ public class TaskService : ITaskService
     {
         var key = _cacheService.GetAllTasksKey();
         var tasks = await _cacheService.GetData<List<TaskResponse>>(key);
-        if (!tasks.Any())
+        if (tasks is null || !tasks.Any())
         {
             tasks = await _taskRepository.GetTasks();
         }
@@ -73,7 +73,7 @@ public class TaskService : ITaskService
         var key = _cacheService.GetTaskKey(taskId);
         await _cacheService.RemoveData(key);
         await UpdateCache();
-        if (!string.IsNullOrEmpty(task.AssignedTo))
+        if (!string.IsNullOrWhiteSpace(task.AssignedTo))
         {
             var user = await _userService.GetUser(task.UserId);
             await PushMessage(task, user, false);

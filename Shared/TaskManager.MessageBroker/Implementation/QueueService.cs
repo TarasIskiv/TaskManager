@@ -61,6 +61,7 @@ public class QueueService : IQueueService
         channel.BasicConsume(queueName, true, consumer);
         channel.Close();
         _connection.Close();
+        if (string.IsNullOrEmpty(message)) return default(T)!;
         var deserializedMessage = JsonSerializer.Deserialize<T>(message);
         return deserializedMessage ?? default(T)!;
     }

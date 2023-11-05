@@ -2,16 +2,12 @@ using System.Runtime.Serialization;
 
 namespace TaskManager.Core.Enums;
 
+[Flags]
 public enum Status
 {
-    [EnumMember(Value = "New")]
     New = 1,
-    [EnumMember(Value = "Ready")]
-    Ready,
-    [EnumMember(Value = "Active")]
-    Active,
-    [EnumMember(Value = "Review")]
-    Review,
-    [EnumMember(Value = "Closed")]
-    Closed
+    Ready = 2,
+    Active = 3,
+    Review = 4,
+    Closed = 5
 }

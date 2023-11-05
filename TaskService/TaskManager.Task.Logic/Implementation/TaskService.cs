@@ -1,5 +1,6 @@
 using StackExchange.Redis;
 using TaskManager.Cache.Abstraction;
+using TaskManager.Core.Enums;
 using TaskManager.Core.Helpers;
 using TaskManager.Core.Payloads;
 using TaskManager.Core.QueueConfig;
@@ -26,6 +27,10 @@ public class TaskService : ITaskService
     }
     public async System.Threading.Tasks.Task CreateTask(CreateTaskPayload payload)
     {
+        payload.Status = Enum.IsDefined(typeof(Status), payload.Status) ? payload.Status : Status.New;
+        payload.Priority = Enum.IsDefined(typeof(Priority), payload.Priority) ? payload.Priority : Priority.Lowest;
+        
+        var a = (Status)payload.Status;
         var taskId = await _taskRepository.CreateTask(payload);
         if(taskId == default) return;
 

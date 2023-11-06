@@ -1,0 +1,135 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/CreateUser",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/Team/CreateUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/GetSingleUser",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/Team/GetSingleUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/GetUsers",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/Team/GetUsers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/UpdateUser",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/Team/UpdateUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/RemoveUser",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamPathTemplate": "/api/Team/RemoveUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/CreateTask",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/Task/CreateTask",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/GetTask",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/Task/GetTask",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/GetTasks",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/Task/GetTasks",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/UpdateTask",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/Task/UpdateTask",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/RemoveTask",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamPathTemplate": "/api/Task/RemoveTask",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": 
+      [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:9000"
+  }
+}

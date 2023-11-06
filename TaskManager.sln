@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.Logic", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.Repository", "TeamService\TaskManager.Team.Repository\TaskManager.Team.Repository.csproj", "{8E50028C-20C6-44CA-8243-0524388420A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.APIGateway", "TaskManager.APIGateway\TaskManager.APIGateway.csproj", "{8D80358E-7F15-4170-896E-8D41A29570DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{8E50028C-20C6-44CA-8243-0524388420A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E50028C-20C6-44CA-8243-0524388420A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E50028C-20C6-44CA-8243-0524388420A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D80358E-7F15-4170-896E-8D41A29570DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D80358E-7F15-4170-896E-8D41A29570DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D80358E-7F15-4170-896E-8D41A29570DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D80358E-7F15-4170-896E-8D41A29570DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{933460A3-3ACF-4879-8739-126B8DD8EE0D} = {FA5A78B1-184D-4EA6-AAF5-87FF7957FFFC}

@@ -33,7 +33,6 @@ public class UserService : IUserService
     {
         await _userRepository.RemoveUser(userId);
         
-        var user = await _userRepository.GetUser(userId);
         var key = _cacheService.GetUserKey(userId);
         await _cacheService.RemoveData(key);
 

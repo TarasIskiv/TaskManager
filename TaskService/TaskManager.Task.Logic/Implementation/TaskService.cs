@@ -29,8 +29,6 @@ public class TaskService : ITaskService
     {
         payload.Status = Enum.IsDefined(typeof(Status), payload.Status) ? payload.Status : Status.New;
         payload.Priority = Enum.IsDefined(typeof(Priority), payload.Priority) ? payload.Priority : Priority.Lowest;
-        
-        var a = (Status)payload.Status;
         var taskId = await _taskRepository.CreateTask(payload);
         if(taskId == default) return;
 
@@ -91,12 +89,12 @@ public class TaskService : ITaskService
         if(taskBeforeUpdate == default) return;
         await _taskRepository.UpdateTask(payload);
         var task = await _taskRepository.GetTask(payload.TaskId);
-
+        
         var key = _cacheService.GetTaskKey(payload.TaskId);
         await _cacheService.SetData(key, task);
         await UpdateCache();
 
-        if (taskBeforeUpdate.AssignedTo != task.AssignedTo)
+        if (taskBeforeUpdate.UserId != task.UserId)
         {
             var user = await _userService.GetUser(taskBeforeUpdate.UserId);
             await PushMessage(task, user, false);

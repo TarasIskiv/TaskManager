@@ -49,7 +49,7 @@ public class UserRepository : IUserRepository
             where UserId = @UserId
             """;
         using var connection = _context.CreateConnection();
-        return await connection.QuerySingleAsync<UserContactInfoResponse>(sql, new { UserId = userId });
+        return await connection.QuerySingleOrDefaultAsync<UserContactInfoResponse>(sql, new { UserId = userId });
     }
 
     public async Task<List<UserContactInfoResponse>> GetUsers()

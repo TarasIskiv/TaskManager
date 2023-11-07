@@ -37,6 +37,8 @@ public class TeamService : ITeamService
 
     public async Task RemoveUser(int userId)
     {
+        var user = await _teamRepository.GetSingleUser(userId);
+        if(user == default) return;
         await _teamRepository.RemoveUser(userId);
         var key = _cacheService.GetUserKey(userId);
         await _cacheService.RemoveData(key);

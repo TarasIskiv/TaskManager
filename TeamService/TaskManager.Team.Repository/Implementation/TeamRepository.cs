@@ -107,7 +107,8 @@ public class TeamRepository : ITeamRepository
             where UserId = @UserId
             """;
         using var connection = _context.CreateConnection();
-        return await connection.QuerySingleAsync<UserResponse>(sql, new { UserId = userId });
+        var user = await connection.QuerySingleOrDefaultAsync<UserResponse>(sql, new { UserId = userId });
+        return user;
     }
 
     public async Task<List<UserResponse>> GetUsers()

@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Notification.API", "NotificationService\TaskManager.Notification.API\TaskManager.Notification.API.csproj", "{933460A3-3ACF-4879-8739-126B8DD8EE0D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskService", "TaskService", "{A12FE2C1-2A54-43AC-8F53-61B3E9A5BF70}"
+	ProjectSection(SolutionItems) = preProject
+		TaskService\Dockerfile = TaskService\Dockerfile
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Task.API", "TaskService\TaskManager.Task.API\TaskManager.Task.API.csproj", "{53B48353-0301-470B-831D-77E34349DD12}"
 EndProject

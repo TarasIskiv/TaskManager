@@ -7,7 +7,6 @@ using TaskManager.Core.Responses;
 using TaskManager.MessageBroker.Abstraction;
 using TaskManager.Team.Logic.Abstraction;
 using TaskManager.Team.Repository.Abstraction;
-using TaskManager.Core.CustomMapper;
 
 namespace TaskManager.Team.Logic.Implementation;
 

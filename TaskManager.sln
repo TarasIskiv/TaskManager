@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Task.API", "TaskService\TaskManager.Task.API\TaskManager.Task.API.csproj", "{53B48353-0301-470B-831D-77E34349DD12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TeamService", "TeamService", "{0DF07E3C-A019-42B0-B552-3A4DB7127084}"
+	ProjectSection(SolutionItems) = preProject
+		TeamService\Dockerfile = TeamService\Dockerfile
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.API", "TeamService\TaskManager.Team.API\TaskManager.Team.API.csproj", "{88B55FF1-B20B-4DF9-AFA0-5AEFD1B90752}"
 EndProject

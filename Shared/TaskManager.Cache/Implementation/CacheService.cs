@@ -23,9 +23,9 @@ public class CacheService : ICacheService
     public async Task<T> GetData<T>(string key)
     {
         var data = await _cache.GetStringAsync(key);
-        if (data is null) return default(T);
+        if (data is null) return default!;
         var deserializedData = JsonSerializer.Deserialize<T>(data);
-        return deserializedData;
+        return deserializedData ?? default!;
     }
 
     public async Task SetData<T>(string key, T data)

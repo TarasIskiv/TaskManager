@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
       <PackageReference Include="RabbitMQ.Client" Version="7.0.0-alpha.0" />
     </ItemGroup>
 
@@ -15,6 +16,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Reference Include="	">
+        <HintPath>..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.11\Microsoft.Extensions.Options.dll</HintPath>
+      </Reference>
       <Reference Include="Microsoft.Extensions.Options">
         <HintPath>..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.11\Microsoft.Extensions.Options.dll</HintPath>
       </Reference>

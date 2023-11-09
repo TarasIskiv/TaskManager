@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using TaskManager.Cache.Abstraction;
 using TaskManager.Cache.Implementation;
 using TaskManager.Core.QueueConfig;

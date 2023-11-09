@@ -1,10 +1,7 @@
-using System.Data;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using TaskManager.Core.QueueConfig;
 using TaskManager.MessageBroker.Abstraction;
 
@@ -12,8 +9,8 @@ namespace TaskManager.MessageBroker.Implementation;
 
 public class QueueService : IQueueService
 {
-    private ConnectionFactory _factory;
-    private IConnection _connection;
+    private ConnectionFactory _factory = default!;
+    private IConnection _connection = default!;
     private readonly QueueBaseConfig _baseConfig;
     public QueueService(IOptions<QueueBaseConfig> config)
     {
@@ -77,7 +74,13 @@ public class QueueService : IQueueService
                 QueueName = "TaskTeamQueue",
                 ExchangeName = "TaskManagerExchange",
                 RoutingKeyName = "TaskManagerRoutingKey"
-            }
+            },
+            _ => new QueueMessageConfig()
+            {
+                QueueName = "TaskNotificationQueue",
+                ExchangeName = "TaskManagerNotificationExchange",
+                RoutingKeyName = "TaskManagerNotificationRoutingKey"
+            } 
         };
     }
 }

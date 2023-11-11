@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "575c9bfd-0fe4-4162-b5e2-469664a06d0c",
+		"name": "Task Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19097634"
+	},
+	"item": [
+		{
+			"name": "Team Service",
+			"item": [
+				{
+					"name": "DEV / Docker",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"example.user@gmail.com\",\n  \"name\": \"User\",\n  \"surname\": \"Example\",\n  \"role\": \"dev\",\n  \"dateOfBirth\": \"2003-11-01T17:44:55.960Z\",\n  \"salary\": 15000,\n  \"nationality\": \"German\",\n  \"workSince\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9000/CreateUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"CreateUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9000/GetSingleUser?userId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"GetSingleUser"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9000/GetUsers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"GetUsers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\" : 1,\n  \"role\": \"devops\",\n  \"dateOfBirth\": \"2003-11-01T17:44:55.960Z\",\n  \"salary\": 20000,\n  \"nationality\": \"German\",\n  \"workSince\": \"2023-11-01T17:44:55.960Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9000/UpdateUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"UpdateUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9000/RemoveUser?userId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"RemoveUser"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Task Service",
+			"item": [
+				{
+					"name": "DEV / Docker",
+					"item": [
+						{
+							"name": "Create Task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Title\" : \"Update unit tests for collector service\",\n    \"AssignedTo\": 0,\n    \"Priorirty\": 1,\n    \"Status\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9000/CreateTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"CreateTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Task",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9000/GetTask?taskId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"GetTask"
+									],
+									"query": [
+										{
+											"key": "taskId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Tasks",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Update Task",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"TaskId\": 1,\n    \"Title\" : \"New Title\",\n    \"Description\": \"Test Description\",\n    \"AcceptanceCriteria\" : \"Test Acceptance Criteria\",\n    \"StoryPoints\": 5,\n    \"AssignedTo\" : 1,\n    \"Priority\": 1,\n    \"Status\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9000/UpdateTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"UpdateTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Task",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9000/RemoveTask?taskId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"RemoveTask"
+									],
+									"query": [
+										{
+											"key": "taskId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

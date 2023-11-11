@@ -1,0 +1,159 @@
+version: '3'
+
+services:
+  queue_service:
+    container_name: queue_rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+    networks: 
+      team_service_network:
+        ipv4_address: 172.20.10.50
+      task_service_network:
+        ipv4_address: 172.20.20.50
+      notification_service_network:
+        ipv4_address: 172.20.30.50
+    volumes:
+      - "queue_service_volume:/var/lib/rabbitmq"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+        
+#  team conf
+  team_sql:
+    container_name: team_sql
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "15433:1433"
+    networks:
+      team_service_network:
+        ipv4_address: 172.20.10.20
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: SA_PASSWORD_1
+    volumes:
+      - "team_service_db_volume:/var/opt/mssql-extensibility/data"
+  team_redis:
+    container_name: team_redis
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      team_service_network:
+        ipv4_address: 172.20.10.10
+    volumes:
+      - "team_service_cache_volume:/data"
+  team_service:
+    container_name: team_service_cont
+    image: team-service
+    ports:
+      - "7500:80"
+    networks:
+      team_service_network:
+        ipv4_address: 172.20.10.5
+    restart: always
+    depends_on: 
+      - team_sql
+      - team_redis
+  
+  #task conf
+  task_sql:
+    container_name: task_sql
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "14333:1433"
+    networks:
+      task_service_network:
+        ipv4_address: 172.20.20.20
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: SA_PASSWORD_1
+    volumes:
+      - "task_service_db_volume:/var/opt/mssql-extensibility/data"
+  task_redis:
+    container_name: task_redis
+    image: redis
+    ports:
+      - "6380:6379"
+    networks: 
+      task_service_network:
+        ipv4_address: 172.20.20.10
+    volumes:
+      - "task_service_cache_volume:/data"
+  task_service:
+    container_name: task_service_cont
+    image: task-service
+    depends_on: 
+      task_redis:
+        condition: service_started
+      task_sql:
+        condition: service_started
+      queue_service:
+        condition: service_healthy
+    ports:
+      - "6000:80"
+    networks: 
+      task_service_network:
+        ipv4_address: 172.20.20.5
+    
+  #notification configs
+  notification_service:
+    container_name: notification_service_cont
+    image: notification-service
+    ports:
+      - "5500:80"
+    networks:
+      notification_service_network:
+        ipv4_address: 172.20.30.5
+    depends_on: 
+      queue_service:
+        condition: service_healthy
+  
+  #api gateway
+  api_gateway:
+    container_name: api_gateway_cont
+    image: api-gateway
+    ports:
+      - "9000:80"
+    networks: 
+      notification_service_network:
+        ipv4_address: 172.20.30.100
+      team_service_network:
+        ipv4_address: 172.20.10.100
+      task_service_network:
+        ipv4_address: 172.20.20.100
+    depends_on: 
+      task_service:
+        condition: service_started
+      team_service:
+        condition: service_started
+      notification_service:
+        condition: service_started
+volumes: 
+  team_service_cache_volume:
+  team_service_db_volume:
+  
+  task_service_db_volume:
+  task_service_cache_volume:
+  
+  queue_service_volume:
+
+networks:
+  team_service_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.10.0/24
+  task_service_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.20.0/24
+  notification_service_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.30.0/24

@@ -22,10 +22,30 @@ public class DapperContext
         _rootConnectionString = configuration.GetConnectionString("DatabaseRoot")!;
         _databaseName = configuration.GetConnectionString("DatabaseName")!;
         _connectionString = _configuration.GetConnectionString("Database")!;
-        InitializeDatabase();
+        TryInitializeDatabase();
     }
     public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
 
+    public void TryInitializeDatabase()
+    {
+        var maxTries = 3;
+        for (int i = 0; i <= maxTries; i++)
+        {
+            try
+            {
+                Console.WriteLine($"Trying to connect to the database. Attempt: {i}");
+                InitializeDatabase();
+                Console.WriteLine("Database Initialized");
+                return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Attempt {i} failed");
+                if (i == maxTries) throw new Exception(e.Message);
+                System.Threading.Thread.Sleep(15_000);
+            }
+        }
+    }
     private void InitializeDatabase()
     {
         using var connection = new SqlConnection(_rootConnectionString);

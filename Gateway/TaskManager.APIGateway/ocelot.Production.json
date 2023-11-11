@@ -5,11 +5,11 @@
       "UpstreamHttpMethod": ["POST"],
       "DownstreamPathTemplate": "/api/Team/CreateUser",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 7000
+          "Host": "team_service",
+          "Port": 80
         }
       ]
     },
@@ -18,11 +18,11 @@
       "UpstreamHttpMethod": ["GET"],
       "DownstreamPathTemplate": "/api/Team/GetSingleUser",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 7000
+          "Host": "team_service",
+          "Port": 80
         }
       ]
     },
@@ -33,8 +33,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7000
+          "Host": "team_service",
+          "Port": 80
         }
       ]
     },
@@ -43,11 +43,11 @@
       "UpstreamHttpMethod": ["PUT"],
       "DownstreamPathTemplate": "/api/Team/UpdateUser",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 7000
+          "Host": "team_service",
+          "Port": 80
         }
       ]
     },
@@ -56,11 +56,11 @@
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamPathTemplate": "/api/Team/RemoveUser",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 7000
+          "Host": "team_service",
+          "Port": 80
         }
       ]
     },
@@ -69,11 +69,11 @@
       "UpstreamHttpMethod": ["POST"],
       "DownstreamPathTemplate": "/api/Task/CreateTask",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 6000
+          "Host": "task_service",
+          "Port": 80
         }
       ]
     },
@@ -84,8 +84,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6000
+          "Host": "task_service",
+          "Port": 80
         }
       ]
     },
@@ -94,11 +94,11 @@
       "UpstreamHttpMethod": ["GET"],
       "DownstreamPathTemplate": "/api/Task/GetTasks",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 6000
+          "Host": "task_service",
+          "Port": 80
         }
       ]
     },
@@ -107,11 +107,11 @@
       "UpstreamHttpMethod": ["PUT"],
       "DownstreamPathTemplate": "/api/Task/UpdateTask",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 6000
+          "Host": "task_service",
+          "Port": 80
         }
       ]
     },
@@ -120,11 +120,11 @@
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamPathTemplate": "/api/Task/RemoveTask",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": 
+      "DownstreamHostAndPorts":
       [
         {
-          "Host": "localhost",
-          "Port": 6000
+          "Host": "task_service",
+          "Port": 80
         }
       ]
     }

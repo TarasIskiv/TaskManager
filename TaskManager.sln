@@ -44,7 +44,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.Logic", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Team.Repository", "TeamService\TaskManager.Team.Repository\TaskManager.Team.Repository.csproj", "{8E50028C-20C6-44CA-8243-0524388420A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.APIGateway", "TaskManager.APIGateway\TaskManager.APIGateway.csproj", "{8D80358E-7F15-4170-896E-8D41A29570DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{AC617334-B6AE-4A4B-9F18-D54231D9015A}"
+	ProjectSection(SolutionItems) = preProject
+		Gateway\Dockerfile = Gateway\Dockerfile
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.APIGateway", "Gateway\TaskManager.APIGateway\TaskManager.APIGateway.csproj", "{43E62202-9316-4B85-BC0D-AC27BD48B033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +112,10 @@ Global
 		{8D80358E-7F15-4170-896E-8D41A29570DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D80358E-7F15-4170-896E-8D41A29570DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D80358E-7F15-4170-896E-8D41A29570DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43E62202-9316-4B85-BC0D-AC27BD48B033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E62202-9316-4B85-BC0D-AC27BD48B033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E62202-9316-4B85-BC0D-AC27BD48B033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E62202-9316-4B85-BC0D-AC27BD48B033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{933460A3-3ACF-4879-8739-126B8DD8EE0D} = {FA5A78B1-184D-4EA6-AAF5-87FF7957FFFC}
@@ -121,5 +130,6 @@ Global
 		{5DD8D1F5-EFF1-489C-9071-CEDEE96568AE} = {A12FE2C1-2A54-43AC-8F53-61B3E9A5BF70}
 		{DAD3BB04-42E2-4290-98C3-A1837B355018} = {0DF07E3C-A019-42B0-B552-3A4DB7127084}
 		{8E50028C-20C6-44CA-8243-0524388420A3} = {0DF07E3C-A019-42B0-B552-3A4DB7127084}
+		{43E62202-9316-4B85-BC0D-AC27BD48B033} = {AC617334-B6AE-4A4B-9F18-D54231D9015A}
 	EndGlobalSection
 EndGlobal

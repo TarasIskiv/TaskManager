@@ -32,5 +32,3 @@ Application Architecture
 The application starts 9 containers. With 2 separate database containers and 2 separate containers for Redis cache.
 The application has configured volumes for databases, caches and RabbitMQ.
 Also, for each microservice, there is configured its own network. In sum, there are 3 different networks
-
-# Technologies:
